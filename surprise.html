@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Little Surprise 💗</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8dfe7, #f4e9e2);
+    font-family: Georgia, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #70243f;
+    overflow-x: hidden;
+}
+
+/* floating flowers */
+
+.flower {
+    position: fixed;
+    font-size: 22px;
+    animation: float 6s linear infinite;
+    opacity: .6;
+    pointer-events: none;
+}
+
+@keyframes float {
+
+    from {
+        transform: translateY(100vh) rotate(0deg);
+    }
+
+    to {
+        transform: translateY(-20vh) rotate(360deg);
+    }
+
+}
+
+.card {
+    width: min(90%, 500px);
+    background: rgba(255,255,255,.78);
+    border-radius: 25px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(100,30,60,.12);
+    animation: appear .5s ease;
+}
+
+@keyframes appear {
+
+    from {
+        opacity: 0;
+        transform: scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+.hidden {
+    display: none;
+}
+
+.dog {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 32px;
+    margin: 15px 0 25px;
+}
+
+p {
+    font-size: 17px;
+}
+
+button {
+    border: none;
+    background: #df6795;
+    color: white;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 10px;
+    transition: .25s;
+    box-shadow: 0 6px 15px rgba(190,70,120,.2);
+}
+
+button:hover {
+    transform: scale(1.06);
+    background: #d75587;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    margin: 8px 0 18px;
+    border: 1.5px solid #d58ba8;
+    border-radius: 12px;
+    background: white;
+    font-size: 16px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Food options */
+
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 25px;
+}
+
+.food {
+    background: rgba(255,255,255,.55);
+    border-radius: 18px;
+    padding: 20px 5px;
+    cursor: pointer;
+    transition: .25s;
+    border: 2px solid transparent;
+}
+
+.food:hover {
+    transform: translateY(-4px);
+}
+
+.food.selected {
+    border-color: #c13d72;
+    background: #fff4f8;
+}
+
+.food span {
+    display: block;
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+.small {
+    font-size: 14px;
+    opacity: .75;
+}
+
+.success {
+    font-size: 55px;
+}
+
+/* NO button */
+
+#noBtn {
+    position: relative;
+    z-index: 10;
+}
+
+/* mobile */
+
+@media(max-width:500px) {
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .card {
+        padding: 30px 20px;
+    }
+
+    .food-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- Floating flowers -->
+
+<div class="flower"
+     style="left:10%;animation-delay:0s;">
+    🌸
+</div>
+
+<div class="flower"
+     style="left:30%;animation-delay:2s;">
+    🌼
+</div>
+
+<div class="flower"
+     style="left:55%;animation-delay:1s;">
+    🌸
+</div>
+
+<div class="flower"
+     style="left:80%;animation-delay:3s;">
+    🌷
+</div>
+
+
+
+<!-- =========================================
+     PAGE 1
+========================================= -->
+
+<div class="card" id="page1">
+
+    <div class="dog"
+         style="
+         background:#ddd;
+         display:flex;
+         align-items:center;
+         justify-content:center;
+         font-size:55px;
+         ">
+
+        🐶
+
+    </div>
+
+    <h1>
+        🌸 Will you go on a date with me? 🌸
+    </h1>
+
+    <button onclick="showPage('page2')">
+        YES ♥
+    </button>
+
+
+    <!-- NO BUTTON -->
+
+    <button id="noBtn"
+            type="button">
+
+        no 🥺
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================================
+     PAGE 2
+========================================= -->
+
+<div class="card hidden" id="page2">
+
+    <div style="font-size:80px;">
+        🧽
+    </div>
+
+    <h1>
+
+        WAIT YOU ACTUALLY<br>
+        SAID YES?? 😭
+
+    </h1>
+
+    <p>
+        I was so ready for you to say no 😭
+    </p>
+
+    <button onclick="showPage('page3')">
+
+        okay okay! →
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================================
+     PAGE 3
+========================================= -->
+
+<div class="card hidden" id="page3">
+
+    <div style="font-size:65px;">
+        📅 🐾
+    </div>
+
+    <h1>
+        So... when are you free?
+    </h1>
+
+
+    <label>
+        Pick a Day 📅
+    </label>
+
+    <input
+        type="date"
+        id="date"
+    >
+
+
+    <label>
+        What Time? ⏰
+    </label>
+
+    <input
+        type="time"
+        id="time"
+        step="60"
+        onclick="openTimePicker(this)"
+    >
+
+
+    <button onclick="nextFromDate()">
+
+        Let's plan the date! ♥
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================================
+     PAGE 4
+========================================= -->
+
+<div class="card hidden" id="page4">
+
+    <h1>
+        What are we feeling? 🍽️✨
+    </h1>
+
+    <p class="small">
+        pick your vibe
+    </p>
+
+
+    <div class="food-grid">
+
+
+        <div
+            class="food"
+            onclick="selectFood(this,'Pizza')">
+
+            <span>🍕</span>
+            Pizza
+
+        </div>
+
+
+        <div
+            class="food"
+            onclick="selectFood(this,'Sushi')">
+
+            <span>🍣</span>
+            Sushi
+
+        </div>
+
+
+        <div
+            class="food"
+            onclick="selectFood(this,'Burgers')">
+
+            <span>🍔</span>
+            Burgers
+
+        </div>
+
+
+        <div
+            class="food"
+            onclick="selectFood(this,'Pasta')">
+
+            <span>🍝</span>
+            Pasta
+
+        </div>
+
+
+        <div
+            class="food"
+            onclick="selectFood(this,'Tacos')">
+
+            <span>🌮</span>
+            Tacos
+
+        </div>
+
+
+        <div
+            class="food"
+            onclick="selectFood(this,'Ramen')">
+
+            <span>🍜</span>
+            Ramen
+
+        </div>
+
+
+    </div>
+
+
+    <button onclick="finishDate()">
+
+        Perfect! ♥
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================================
+     FINAL PAGE
+========================================= -->
+
+<div class="card hidden" id="page5">
+
+    <div class="success">
+        💕
+    </div>
+
+    <h1>
+        IT'S A DATE! 🥹
+    </h1>
+
+    <p id="result"></p>
+
+    <p>
+        Can't wait to see you! 🌸
+    </p>
+
+    <button onclick="location.reload()">
+
+        Start Again ↻
+
+    </button>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   GOOGLE APPS SCRIPT URL
+   =====================================================
+
+   তোমার নিজের /exec URL এখানে বসাবে।
+
+===================================================== */
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbw2EyLYqr1dbva2c6oGhnf1O04IifIAeLojSHywWvcIPd2AnOsXMVPDIz6wUfU_tg8t/exec";
+
+
+let selectedFood = "";
+
+
+
+/* =====================================================
+   NO BUTTON — RUN AWAY 😭
+===================================================== */
+
+const noBtn =
+    document.getElementById("noBtn");
+
+
+/*
+   Button-কে নতুন জায়গায় পাঠানো
+*/
+
+function moveNoButton() {
+
+    const buttonWidth =
+        noBtn.offsetWidth;
+
+    const buttonHeight =
+        noBtn.offsetHeight;
+
+
+    const maxX =
+        window.innerWidth -
+        buttonWidth -
+        20;
+
+    const maxY =
+        window.innerHeight -
+        buttonHeight -
+        20;
+
+
+    const x =
+        Math.max(
+            10,
+            Math.random() * maxX
+        );
+
+
+    const y =
+        Math.max(
+            10,
+            Math.random() * maxY
+        );
+
+
+    noBtn.style.position = "fixed";
+
+    noBtn.style.left = x + "px";
+
+    noBtn.style.top = y + "px";
+
+    noBtn.style.margin = "0";
+
+}
+
+
+/*
+   Desktop:
+   Cursor button-এর কাছে এলেই পালাবে
+*/
+
+document.addEventListener(
+    "mousemove",
+    function(event) {
+
+        /*
+           শুধু Page 1 থাকলে কাজ করবে
+        */
+
+        const page1 =
+            document.getElementById("page1");
+
+
+        if (
+            page1.classList.contains("hidden")
+        ) {
+            return;
+        }
+
+
+        const rect =
+            noBtn.getBoundingClientRect();
+
+
+        const buttonCenterX =
+            rect.left +
+            rect.width / 2;
+
+
+        const buttonCenterY =
+            rect.top +
+            rect.height / 2;
+
+
+        const distanceX =
+            event.clientX -
+            buttonCenterX;
+
+
+        const distanceY =
+            event.clientY -
+            buttonCenterY;
+
+
+        const distance =
+            Math.sqrt(
+                distanceX * distanceX +
+                distanceY * distanceY
+            );
+
+
+        /*
+           Cursor 120px-এর মধ্যে এলেই
+           button পালাবে
+        */
+
+        if (distance < 120) {
+
+            moveNoButton();
+
+        }
+
+    }
+);
+
+
+
+/*
+   Mobile:
+   Touch করতে গেলেই পালাবে
+*/
+
+noBtn.addEventListener(
+    "touchstart",
+    function(event) {
+
+        event.preventDefault();
+
+        moveNoButton();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/*
+   Mouse সরাসরি button-এর উপর গেলেও পালাবে
+*/
+
+noBtn.addEventListener(
+    "mouseenter",
+    function() {
+
+        moveNoButton();
+
+    }
+);
+
+
+/*
+   যদি কোনোভাবে click করতে পারে,
+   তবুও কিছু হবে না 😭
+*/
+
+noBtn.addEventListener(
+    "click",
+    function(event) {
+
+        event.preventDefault();
+
+        moveNoButton();
+
+    }
+);
+
+
+
+/* =====================================================
+   OPEN PHONE CLOCK
+===================================================== */
+
+function openTimePicker(input) {
+
+    if (input.showPicker) {
+
+        try {
+
+            input.showPicker();
+
+        }
+        catch (error) {
+
+            console.log(error);
+
+        }
+
+    }
+
+}
+
+
+
+/* =====================================================
+   CHANGE PAGE
+===================================================== */
+
+function showPage(page) {
+
+    document
+        .querySelectorAll(".card")
+        .forEach(card => {
+
+            card.classList.add("hidden");
+
+        });
+
+
+    document
+        .getElementById(page)
+        .classList.remove("hidden");
+
+
+    /*
+       Page 1 থেকে বের হলে NO button
+       আবার normal position-এ reset হবে
+    */
+
+    if (page !== "page1") {
+
+        noBtn.style.position = "relative";
+
+        noBtn.style.left = "";
+
+        noBtn.style.top = "";
+
+        noBtn.style.margin = "10px";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   DATE + TIME VALIDATION
+===================================================== */
+
+function nextFromDate() {
+
+    const date =
+        document
+        .getElementById("date")
+        .value;
+
+
+    const time =
+        document
+        .getElementById("time")
+        .value;
+
+
+    if (!date) {
+
+        alert(
+            "Pick a date first 🥺"
+        );
+
+        return;
+
+    }
+
+
+    if (!time) {
+
+        alert(
+            "Pick a time too! ⏰"
+        );
+
+        return;
+
+    }
+
+
+    showPage("page4");
+
+}
+
+
+
+/* =====================================================
+   FOOD SELECTION
+===================================================== */
+
+function selectFood(element, food) {
+
+    document
+        .querySelectorAll(".food")
+        .forEach(item => {
+
+            item.classList.remove("selected");
+
+        });
+
+
+    element.classList.add("selected");
+
+
+    selectedFood = food;
+
+}
+
+
+
+/* =====================================================
+   FINAL + GOOGLE SHEETS
+===================================================== */
+
+async function finishDate() {
+
+
+    if (!selectedFood) {
+
+        alert(
+            "Choose what we're eating first 😭🍕"
+        );
+
+        return;
+
+    }
+
+
+    const date =
+        document
+        .getElementById("date")
+        .value;
+
+
+    const time =
+        document
+        .getElementById("time")
+        .value;
+
+
+
+    /*
+       Format Date
+    */
+
+    const formattedDate =
+
+        new Date(
+            date + "T00:00:00"
+        )
+        .toLocaleDateString(
+            "en-GB",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            }
+        );
+
+
+
+    /*
+       Convert time to AM/PM
+    */
+
+    let displayTime = time;
+
+
+    if (time) {
+
+        const parts =
+            time.split(":");
+
+
+        let hour =
+            parseInt(parts[0]);
+
+
+        const minute =
+            parts[1];
+
+
+        const period =
+            hour >= 12
+            ? "PM"
+            : "AM";
+
+
+        hour =
+            hour % 12 || 12;
+
+
+        displayTime =
+            hour +
+            ":" +
+            minute +
+            " " +
+            period;
+
+    }
+
+
+
+    /*
+       Show final result
+    */
+
+    document
+        .getElementById("result")
+        .innerHTML =
+
+        `📅 <b>${formattedDate}</b><br>
+         ⏰ <b>${displayTime}</b><br>
+         🍽️ <b>${selectedFood}</b>`;
+
+
+
+    /* =================================================
+       SEND DATA TO GOOGLE SHEET
+    ================================================= */
+
+    const data =
+        new URLSearchParams();
+
+
+    data.append(
+        "date",
+        date
+    );
+
+
+    data.append(
+        "time",
+        displayTime
+    );
+
+
+    data.append(
+        "food",
+        selectedFood
+    );
+
+
+    try {
+
+        await fetch(
+            SCRIPT_URL,
+            {
+
+                method: "POST",
+
+                mode: "no-cors",
+
+                headers: {
+
+                    "Content-Type":
+                    "application/x-www-form-urlencoded"
+
+                },
+
+                body:
+                data.toString()
+
+            }
+        );
+
+
+        console.log(
+            "Date response sent."
+        );
+
+    }
+    catch (error) {
+
+        console.log(
+            "Google Sheet error:",
+            error
+        );
+
+    }
+
+
+
+    /*
+       Final page
+    */
+
+    showPage("page5");
+
+
+    createConfetti();
+
+}
+
+
+
+/* =====================================================
+   CONFETTI
+===================================================== */
+
+function createConfetti() {
+
+
+    for (
+        let i = 0;
+        i < 50;
+        i++
+    ) {
+
+
+        const confetti =
+            document.createElement("div");
+
+
+        confetti.innerHTML =
+
+            [
+                "💗",
+                "🌸",
+                "✨",
+                "💕",
+                "🌷"
+            ]
+            [
+                Math.floor(
+                    Math.random() * 5
+                )
+            ];
+
+
+        confetti.style.position =
+            "fixed";
+
+
+        confetti.style.left =
+            Math.random() * 100 +
+            "vw";
+
+
+        confetti.style.top =
+            "-20px";
+
+
+        confetti.style.fontSize =
+            "22px";
+
+
+        confetti.style.zIndex =
+            "9999";
+
+
+        document
+            .body
+            .appendChild(confetti);
+
+
+        const duration =
+
+            2000 +
+            Math.random() * 3000;
+
+
+        confetti.animate(
+
+            [
+
+                {
+                    transform:
+                    "translateY(0) rotate(0deg)"
+                },
+
+                {
+
+                    transform:
+                    "translateY(110vh) rotate(720deg)"
+
+                }
+
+            ],
+
+            {
+
+                duration:
+                duration,
+
+                easing:
+                "linear"
+
+            }
+
+        );
+
+
+        setTimeout(
+
+            () => {
+
+                confetti.remove();
+
+            },
+
+            duration
+
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
