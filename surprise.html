@@ -52,6 +52,9 @@ body {
     border-radius: 25px;
     padding: 40px 30px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     box-shadow: 0 15px 40px rgba(100,30,60,.12);
     animation: appear .5s ease;
 }
@@ -92,9 +95,32 @@ body {
     font-size: 55px;
 }
 
+.title-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 15px 0 25px;
+}
+
 h1 {
     font-size: 32px;
-    margin: 15px 0 25px;
+    margin: 0;
+}
+
+/* Side flowers styling to prevent offset */
+.left-flower {
+    position: absolute;
+    left: -28px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.right-flower {
+    position: absolute;
+    right: -28px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
 }
 
 p {
@@ -209,7 +235,7 @@ label {
 <body>
 
 
-<!-- Floating flowers -->
+<!-- Floating background flowers -->
 
 <div class="flower"
      style="left:10%;animation-delay:0s;">
@@ -245,9 +271,13 @@ label {
         </div>
     </div>
 
-    <h1>
-        🌸 Will you go on a date with me? 🌸
-    </h1>
+    <div class="title-wrapper">
+        <span class="left-flower">🌸</span>
+        <h1>
+            Will you go on a date with me?
+        </h1>
+        <span class="right-flower">🌸</span>
+    </div>
 
     <button onclick="showPage('page2')">
         YES ♥
@@ -904,7 +934,7 @@ async function finishDate() {
 
         `📅 <b>${formattedDate}</b><br>
          ⏰ <b>${displayTime}</b><br>
-         🍽️️ <b>${selectedFood}</b>`;
+         🍽 <b>${selectedFood}</b>`;
 
 
 
@@ -1077,7 +1107,7 @@ function createConfetti() {
                 duration,
 
                 easing:
-                "linear"
+                text = "linear"
 
             }
 
