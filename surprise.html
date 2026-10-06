@@ -295,14 +295,14 @@ label {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    margin-top: 25px;
+    margin-top: 20px;
     width: 100%;
 }
 
 .food {
     background: rgba(255,255,255,.55);
     border-radius: 18px;
-    padding: 20px 5px;
+    padding: 15px 5px;
     cursor: pointer;
     transition: .25s;
     border: 2px solid transparent;
@@ -319,13 +319,22 @@ label {
 
 .food span {
     display: block;
-    font-size: 35px;
-    margin-bottom: 8px;
+    font-size: 32px;
+    margin-bottom: 6px;
 }
 
 .small {
     font-size: 14px;
     opacity: .75;
+    margin-bottom: 4px;
+}
+
+.tea-note {
+    font-size: 13px;
+    color: #c13d72;
+    font-weight: bold;
+    margin-top: 2px;
+    margin-bottom: 10px;
 }
 
 .success {
@@ -516,6 +525,9 @@ label {
     <p class="small">
         pick your vibe
     </p>
+    <div class="tea-note">
+        চা কিন্তু থাকবেই!! ☕✨
+    </div>
 
 
     <div class="food-grid">
@@ -533,20 +545,10 @@ label {
 
         <div
             class="food"
-            onclick="selectFood(this,'Sushi')">
-
-            <span>🍣</span>
-            Sushi
-
-        </div>
-
-
-        <div
-            class="food"
-            onclick="selectFood(this,'Burgers')">
+            onclick="selectFood(this,'Burger')">
 
             <span>🍔</span>
-            Burgers
+            Burger
 
         </div>
 
@@ -563,20 +565,30 @@ label {
 
         <div
             class="food"
-            onclick="selectFood(this,'Tacos')">
+            onclick="selectFood(this,'Fuchka')">
 
-            <span>🌮</span>
-            Tacos
+            <span>🥟</span>
+            Fuchka
 
         </div>
 
 
         <div
             class="food"
-            onclick="selectFood(this,'Ramen')">
+            onclick="selectFood(this,'Biryani')">
 
-            <span>🍜</span>
-            Ramen
+            <span>🍛</span>
+            Biryani
+
+        </div>
+
+
+        <div
+            class="food"
+            onclick="selectFood(this,'Grilled Chicken')">
+
+            <span>🍗</span>
+            Grilled Chicken
 
         </div>
 
@@ -584,7 +596,7 @@ label {
     </div>
 
 
-    <button onclick="finishDate()">
+    <button onclick="finishDate()" style="margin-top: 20px;">
 
         Perfect! ♥
 
