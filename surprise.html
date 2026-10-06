@@ -197,7 +197,7 @@ label {
     border: 2px solid #df6795;
     border-radius: 20px;
     padding: 25px;
-    width: min(90%, 350px);
+    width: min(90%, 360px);
     text-align: center;
     box-shadow: 0 10px 30px rgba(100, 30, 60, 0.2);
 }
@@ -248,35 +248,45 @@ label {
     color: white;
 }
 
-.calendar-day.selected {
-    background: #c13d72;
-    color: white;
-    font-weight: bold;
-}
-
 .calendar-day.empty {
     background: transparent;
     border: none;
     cursor: default;
 }
 
-/* Time Picker Modal Styling */
-.time-select-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin: 20px 0;
+/* Custom Time Picker Grids */
+.time-section-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #70243f;
+    margin: 12px 0 6px 0;
+    text-align: left;
 }
 
-.time-select-group select {
-    padding: 10px;
-    border-radius: 10px;
-    border: 1.5px solid #df6795;
+.time-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.time-btn {
     background: white;
-    font-size: 16px;
+    border: 1px solid #df6795;
     color: #70243f;
-    outline: none;
+    padding: 8px 0;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0;
+    box-shadow: none;
+    transition: 0.2s;
+}
+
+.time-btn:hover, .time-btn.selected {
+    background: #df6795;
+    color: white;
+    transform: none;
 }
 
 /* Food options */
@@ -638,6 +648,9 @@ let selectedFood = "";
 ===================================================== */
 
 let currentCalendarDate = new Date();
+let tempHour = "12";
+let tempMin = "00";
+let tempPeriod = "PM";
 
 function openCustomCalendar() {
     let existingModal = document.getElementById("calendarModal");
@@ -682,7 +695,7 @@ function openCustomCalendar() {
     }
 
     gridHTML += `</div>`;
-    content.innerHTML = headerHTML + gridHTML + `<button onclick="closeModal('calendarModal')" style="padding: 8px 20px; font-size: 14px; margin-top: 10px;">Close</button>`;
+    content.innerHTML = headerHTML + gridHTML + `<button onclick="closeModal('calendarModal')" style="padding: 8px 20px; font-size: 14px; margin-top: 5px;">Close</button>`;
     modal.appendChild(content);
     document.body.appendChild(modal);
 }
@@ -716,21 +729,26 @@ function openCustomTimePickerModal() {
 
     let timeHTML = `
         <h3 style="margin-top:0; color:#70243f;">Pick Time ⏰</h3>
-        <div class="time-select-group">
-            <select id="selectHour">
-                ${Array.from({length: 12}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
-            </select> : 
-            <select id="selectMinute">
-                ${['00', '15', '30', '45'].map(m => `<option value="${m}">${m}</option>`).join('')}
-            </select>
-            <select id="selectPeriod">
-                <option value="AM">AM</option>
-                <option value="PM" selected>PM</option>
-            </select>
+        
+        <div class="time-section-title">Hour</div>
+        <div class="time-grid">
+            ${['1','2','3','4','5','6','7','8','9','10','11','12'].map(h => `<button type="button" class="time-btn ${tempHour === h ? 'selected' : ''}" onclick="setTempHour('${h}', this)">${h}</button>`).join('')}
         </div>
-        <button onclick="saveCustomTime()" style="padding: 10px 25px; font-size: 15px;">Set Time ♥</button>
+
+        <div class="time-section-title">Minute</div>
+        <div class="time-grid" style="grid-template-columns: repeat(4, 1fr);">
+            ${['00','15','30','45'].map(m => `<button type="button" class="time-btn ${tempMin === m ? 'selected' : ''}" onclick="setTempMin('${m}', this)">${m}</button>`).join('')}
+        </div>
+
+        <div class="time-section-title">AM / PM</div>
+        <div class="time-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <button type="button" class="time-btn ${tempPeriod === 'AM' ? 'selected' : ''}" onclick="setTempPeriod('AM', this)">AM</button>
+            <button type="button" class="time-btn ${tempPeriod === 'PM' ? 'selected' : ''}" onclick="setTempPeriod('PM', this)">PM</button>
+        </div>
+
         <br>
-        <button onclick="closeModal('timeModal')" style="background:#ddd; color:#70243f; padding: 6px 15px; font-size: 13px; margin-top: 8px;">Cancel</button>
+        <button onclick="saveCustomTime()" style="padding: 10px 25px; font-size: 15px; margin: 5px;">Set Time ♥</button>
+        <button onclick="closeModal('timeModal')" style="background:#ddd; color:#70243f; padding: 8px 15px; font-size: 13px; margin: 5px;">Cancel</button>
     `;
 
     content.innerHTML = timeHTML;
@@ -738,17 +756,34 @@ function openCustomTimePickerModal() {
     document.body.appendChild(modal);
 }
 
+function setTempHour(h, btn) {
+    tempHour = h;
+    let parent = btn.parentElement;
+    parent.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+function setTempMin(m, btn) {
+    tempMin = m;
+    let parent = btn.parentElement;
+    parent.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+function setTempPeriod(p, btn) {
+    tempPeriod = p;
+    let parent = btn.parentElement;
+    parent.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
 function saveCustomTime() {
-    let hr = document.getElementById("selectHour").value;
-    let min = document.getElementById("selectMinute").value;
-    let period = document.getElementById("selectPeriod").value;
+    let time24Hr = tempHour;
+    if (tempPeriod === "PM" && tempHour !== "12") time24Hr = String(parseInt(tempHour) + 12);
+    if (tempPeriod === "AM" && tempHour === "12") time24Hr = "00";
+    let timeFormatted24 = String(time24Hr).padStart(2, '0') + ":" + tempMin;
 
-    let time24Hr = hr;
-    if (period === "PM" && hr !== "12") time24Hr = String(parseInt(hr) + 12);
-    if (period === "AM" && hr === "12") time24Hr = "00";
-    let timeFormatted24 = String(time24Hr).padStart(2, '0') + ":" + min;
-
-    let displayStr = `${hr}:${min} ${period}`;
+    let displayStr = `${tempHour}:${tempMin} ${tempPeriod}`;
     document.getElementById("time").value = timeFormatted24;
     document.getElementById("timeDisplayText").innerText = displayStr;
     closeModal("timeModal");
