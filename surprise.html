@@ -74,12 +74,22 @@ body {
     display: none;
 }
 
+.dog-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
 .dog {
     width: 120px;
     height: 120px;
     object-fit: cover;
     border-radius: 20px;
-    margin: 0 auto 20px auto; /* Centered nicely */
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 55px;
 }
 
 h1 {
@@ -229,17 +239,10 @@ label {
 
 <div class="card" id="page1">
 
-    <div class="dog"
-         style="
-         background:#ddd;
-         display:flex;
-         align-items:center;
-         justify-content:center;
-         font-size:55px;
-         ">
-
-        🐶
-
+    <div class="dog-container">
+        <div class="dog">
+            🐶
+        </div>
     </div>
 
     <h1>
@@ -589,5 +592,65 @@ document.addEventListener(
 
         const distance =
             Math.sqrt(
-                distance
-                
+                distanceX * distanceX +
+                distanceY * distanceY
+            );
+
+
+        /*
+           Cursor 120px-এর মধ্যে এলেই
+           button পালাবে
+        */
+
+        if (distance < 120) {
+
+            moveNoButton();
+
+        }
+
+    }
+);
+
+
+
+/*
+   Mobile:
+   Touch করতে গেলেই পালাবে
+*/
+
+noBtn.addEventListener(
+    "touchstart",
+    function(event) {
+
+        event.preventDefault();
+
+        moveNoButton();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/*
+   Mouse সরাসরি button-এর উপর গেলেও পালাবে
+*/
+
+noBtn.addEventListener(
+    "mouseenter",
+    function() {
+
+        moveNoButton();
+
+    }
+);
+
+
+/*
+   যদি কোনোভাবে click করতে পারে,
+   তবুও কিছু হবে না 😭
+*/
+
+noBtn.addEventListener(
+    "click",
