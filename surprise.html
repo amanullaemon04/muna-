@@ -145,7 +145,16 @@ button:hover {
     background: #d75587;
 }
 
-input {
+label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Custom Picker Box Style */
+.picker-box {
     width: 100%;
     padding: 15px;
     margin: 8px 0 18px;
@@ -154,23 +163,120 @@ input {
     background: #fff8fa;
     font-size: 16px;
     color: #70243f;
-    outline: none;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 2px 5px rgba(223, 103, 149, 0.08);
-}
-
-input:focus {
-    border-color: #c13d72;
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(223, 103, 149, 0.3);
-}
-
-label {
-    display: block;
+    cursor: pointer;
     text-align: left;
-    font-weight: bold;
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: inset 0 2px 5px rgba(223, 103, 149, 0.08);
+    transition: all 0.3s ease;
+}
+
+.picker-box:hover {
+    background: #fff0f4;
+    border-color: #c13d72;
+}
+
+/* Custom Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background: rgba(112, 36, 63, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: appear 0.3s ease;
+}
+
+.modal-content {
+    background: #fff8fa;
+    border: 2px solid #df6795;
+    border-radius: 20px;
+    padding: 25px;
+    width: min(90%, 350px);
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(100, 30, 60, 0.2);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #70243f;
+}
+
+.calendar-header button {
+    background: #df6795;
+    padding: 5px 12px;
+    margin: 0;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.calendar-day-name {
+    font-size: 13px;
+    font-weight: bold;
+    color: #df6795;
+    padding: 5px 0;
+}
+
+.calendar-day {
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #f8dfe7;
+    transition: 0.2s;
+}
+
+.calendar-day:hover {
+    background: #df6795;
+    color: white;
+}
+
+.calendar-day.selected {
+    background: #c13d72;
+    color: white;
+    font-weight: bold;
+}
+
+.calendar-day.empty {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+/* Time Picker Modal Styling */
+.time-select-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.time-select-group select {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1.5px solid #df6795;
+    background: white;
+    font-size: 16px;
+    color: #70243f;
+    outline: none;
 }
 
 /* Food options */
@@ -358,23 +464,23 @@ label {
     <label>
         Pick a Day 📅
     </label>
-
-    <input
-        type="date"
-        id="date"
-    >
+    
+    <div class="picker-box" onclick="openCustomCalendar()">
+        <span id="dateDisplayText">Select a date 🗓️</span>
+        <span>▼</span>
+    </div>
+    <input type="hidden" id="date">
 
 
     <label>
         What Time? ⏰
     </label>
-
-    <input
-        type="time"
-        id="time"
-        step="60"
-        onclick="openTimePicker(this)"
-    >
+    
+    <div class="picker-box" onclick="openCustomTimePickerModal()">
+        <span id="timeDisplayText">Select a time ⏰</span>
+        <span>▼</span>
+    </div>
+    <input type="hidden" id="time">
 
 
     <button onclick="nextFromDate()">
@@ -524,6 +630,129 @@ const SCRIPT_URL =
 
 
 let selectedFood = "";
+
+
+
+/* =====================================================
+   CUSTOM CALENDAR & TIME PICKER LOGIC
+===================================================== */
+
+let currentCalendarDate = new Date();
+
+function openCustomCalendar() {
+    let existingModal = document.getElementById("calendarModal");
+    if (existingModal) existingModal.remove();
+
+    let modal = document.createElement("div");
+    modal.id = "calendarModal";
+    modal.className = "modal-overlay";
+
+    let content = document.createElement("div");
+    content.className = "modal-content";
+
+    let year = currentCalendarDate.getFullYear();
+    let month = currentCalendarDate.getMonth();
+
+    let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    let headerHTML = `
+        <div class="calendar-header">
+            <button onclick="changeMonth(-1)">❮</button>
+            <span>${monthNames[month]} ${year}</span>
+            <button onclick="changeMonth(1)">❯</button>
+        </div>
+    `;
+
+    let gridHTML = `<div class="calendar-grid">`;
+    let days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+    days.forEach(d => { gridHTML += `<div class="calendar-day-name">${d}</div>`; });
+
+    let firstDayIndex = new Date(year, month, 1).getDay();
+    let totalDays = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDayIndex; i++) {
+        gridHTML += `<div class="calendar-day empty"></div>`;
+    }
+
+    for (let day = 1; day <= totalDays; day++) {
+        let mStr = String(month + 1).padStart(2, '0');
+        let dStr = String(day).padStart(2, '0');
+        let dateVal = `${year}-${mStr}-${dStr}`;
+        gridHTML += `<div class="calendar-day" onclick="selectCustomDate('${dateVal}', '${monthNames[month]} ${day}, ${year}')">${day}</div>`;
+    }
+
+    gridHTML += `</div>`;
+    content.innerHTML = headerHTML + gridHTML + `<button onclick="closeModal('calendarModal')" style="padding: 8px 20px; font-size: 14px; margin-top: 10px;">Close</button>`;
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+}
+
+function changeMonth(direction) {
+    currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
+    openCustomCalendar();
+}
+
+function selectCustomDate(dateVal, displayStr) {
+    document.getElementById("date").value = dateVal;
+    document.getElementById("dateDisplayText").innerText = displayStr;
+    closeModal("calendarModal");
+}
+
+function closeModal(id) {
+    let modal = document.getElementById(id);
+    if (modal) modal.remove();
+}
+
+function openCustomTimePickerModal() {
+    let existingModal = document.getElementById("timeModal");
+    if (existingModal) existingModal.remove();
+
+    let modal = document.createElement("div");
+    modal.id = "timeModal";
+    modal.className = "modal-overlay";
+
+    let content = document.createElement("div");
+    content.className = "modal-content";
+
+    let timeHTML = `
+        <h3 style="margin-top:0; color:#70243f;">Pick Time ⏰</h3>
+        <div class="time-select-group">
+            <select id="selectHour">
+                ${Array.from({length: 12}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+            </select> : 
+            <select id="selectMinute">
+                ${['00', '15', '30', '45'].map(m => `<option value="${m}">${m}</option>`).join('')}
+            </select>
+            <select id="selectPeriod">
+                <option value="AM">AM</option>
+                <option value="PM" selected>PM</option>
+            </select>
+        </div>
+        <button onclick="saveCustomTime()" style="padding: 10px 25px; font-size: 15px;">Set Time ♥</button>
+        <br>
+        <button onclick="closeModal('timeModal')" style="background:#ddd; color:#70243f; padding: 6px 15px; font-size: 13px; margin-top: 8px;">Cancel</button>
+    `;
+
+    content.innerHTML = timeHTML;
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+}
+
+function saveCustomTime() {
+    let hr = document.getElementById("selectHour").value;
+    let min = document.getElementById("selectMinute").value;
+    let period = document.getElementById("selectPeriod").value;
+
+    let time24Hr = hr;
+    if (period === "PM" && hr !== "12") time24Hr = String(parseInt(hr) + 12);
+    if (period === "AM" && hr === "12") time24Hr = "00";
+    let timeFormatted24 = String(time24Hr).padStart(2, '0') + ":" + min;
+
+    let displayStr = `${hr}:${min} ${period}`;
+    document.getElementById("time").value = timeFormatted24;
+    document.getElementById("timeDisplayText").innerText = displayStr;
+    closeModal("timeModal");
+}
 
 
 
@@ -708,31 +937,6 @@ noBtn.addEventListener(
 
 
 /* =====================================================
-   OPEN PHONE CLOCK
-===================================================== */
-
-function openTimePicker(input) {
-
-    if (input.showPicker) {
-
-        try {
-
-            input.showPicker();
-
-        }
-        catch (error) {
-
-            console.log(error);
-
-        }
-
-    }
-
-}
-
-
-
-/* =====================================================
    CHANGE PAGE
 ===================================================== */
 
@@ -895,7 +1099,7 @@ async function finishDate() {
 
 
     /*
-       Convert time to AM/PM
+       Convert time to AM/PM for display
     */
 
     let displayTime = time;
